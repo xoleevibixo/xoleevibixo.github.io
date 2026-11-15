@@ -2442,7 +2442,11 @@ function toast(msg){
 }
 function openSheet(id){ var s = el(id); if (s) s.classList.add('is-open'); }
 function closeSheet(id){ var s = el(id); if (s) s.classList.remove('is-open'); }
-function bump(){ state.stats.taps++; state.lastAt = fmtNow(); }
+function bump(){
+  state.stats.taps++;
+  state.lastAt = fmtNow();
+  if (!state.playStartMs) startPlayClock();   /* 처음 손댄 때부터 놀이 시간을 잰다 */
+}
 
 /* ═════════════════════════════════════════
    13. 행동
@@ -2820,7 +2824,7 @@ function init(){
   Sound.setOn(state.sound !== false);
   var stale = !state.playStartMs || state.playStartDay !== todayLabel() ||
               (Date.now() - state.playStartMs > 6 * 60 * 60 * 1000);
-  if (stale){ startPlayClock(); saveState(); }
+  if (stale){ state.playStartMs = 0; state.playStartDay = todayLabel(); saveState(); }
   skyApply();
   if (typeof setInterval === 'function') setInterval(tickSky, 20000);
   if (state.place){
