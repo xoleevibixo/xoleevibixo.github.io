@@ -114,20 +114,18 @@ button{font-family:inherit;color:inherit}
 }
 .card-talk b{color:var(--soil-deep);display:block;font-size:19px;letter-spacing:.02em;margin-bottom:2px}
 
-/* ═════════ 마을 풍경(1940년대 강화도) ═════════ */
+/* ═════════ 마을 풍경(초가집 · 논 · 냇가) ═════════ */
 .village{
   position:relative;height:214px;overflow:hidden;
   border-radius:0 0 30px 30px;margin:-16px -18px 12px;
   background:linear-gradient(#FBEFD3,#F8DFBB 62%,#F3D2AC);
 }
-.village--dusk{background:linear-gradient(#FBE7C9,#F7CFA6 58%,#EFBD9A)}
 .v-sky{position:absolute;inset:0}
 .v-sun{
   position:absolute;right:34px;top:22px;width:52px;height:52px;border-radius:50%;
   background:radial-gradient(circle at 38% 34%,#FFEDB8,#EDAE5C);
   box-shadow:0 0 34px rgba(237,174,92,.55);
 }
-.village--dusk .v-sun{top:auto;bottom:112px;right:28px;width:58px;height:58px;background:radial-gradient(circle at 40% 36%,#FFE6B0,#E8944B);box-shadow:0 0 50px rgba(232,148,75,.6)}
 .v-mtn{
   position:absolute;left:-24%;bottom:92px;width:96%;height:74px;
   border-radius:52% 58% 0 0/100% 100% 0 0;background:#9FB08A;opacity:.85;
@@ -172,14 +170,8 @@ button{font-family:inherit;color:inherit}
   content:"";position:absolute;left:12%;top:10px;width:40%;height:4px;border-radius:4px;
   background:rgba(255,255,255,.55);box-shadow:60px 14px 0 rgba(255,255,255,.4),140px 2px 0 rgba(255,255,255,.45);
 }
-.v-chip{
-  position:absolute;left:14px;top:12px;padding:6px 14px;border-radius:999px;
-  background:rgba(255,253,247,.92);border:1px solid rgba(139,106,67,.22);
-  font-size:19px;font-weight:700;color:var(--soil-deep);
-}
 .v-place{position:absolute;right:14px;bottom:54px;font-size:19px;color:#5B6B45;opacity:.9}
 
-.hello-lead{margin:0 0 2px;font-size:22px;color:var(--soil-deep);font-weight:700}
 .call-line{margin:0 0 2px;font-size:24px;color:#7C4B2A;font-weight:800;letter-spacing:-.01em}
 .hello-place{margin:0 0 18px;font-size:19px;color:#8A7F68}
 .field-label{display:block;margin:16px 0 8px;font-size:20px;color:var(--ink-soft)}
@@ -272,11 +264,6 @@ button{font-family:inherit;color:inherit}
   background:linear-gradient(#E9F4FA 0%,#E7F1DA 40%,#DDEBC6 70%,#CFE0AE 100%);
   background-size:cover;background-position:center;
   -webkit-user-select:none;user-select:none;
-}
-.map-chip{
-  position:absolute;left:12px;top:10px;z-index:4;padding:4px 11px;border-radius:999px;
-  background:rgba(255,253,247,.9);border:1px solid rgba(139,106,67,.22);
-  font-size:16px;font-weight:700;color:var(--soil-deep);white-space:nowrap;
 }
 .map-roads{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
 .map-node{
@@ -581,11 +568,6 @@ button{font-family:inherit;color:inherit}
   box-shadow:0 0 0 3px rgba(46,74,38,.28),0 0 34px rgba(255,236,150,1);
 }
 .rice-guide{position:absolute;left:0;right:0;z-index:2;border-top:3px dashed rgba(255,255,255,.85);opacity:.9}
-.rice-place{
-  position:absolute;left:12px;top:34px;z-index:3;padding:5px 12px;border-radius:999px;
-  background:rgba(255,253,247,.9);border:1px solid rgba(139,106,67,.25);
-  font-size:18px;font-weight:700;color:#4A6A4C;
-}
 .rice-drop{
   position:absolute;transform:translate(-50%,-50%);z-index:4;font-size:56px;line-height:1;
   filter:drop-shadow(0 0 3px rgba(255,255,255,.95)) drop-shadow(0 5px 6px rgba(20,60,70,.45));
@@ -703,6 +685,159 @@ button{font-family:inherit;color:inherit}
 }
 .toast.is-on{opacity:1;transform:translate(-50%,0)}
 
+
+/* ═════════ 시간대별 하늘 · 해와 달의 반원 궤적 ═════════ */
+.village,.map-scene,.garden-scene,.rice-scene,.stream-scene,.kitchen-scene,.store-scene{isolation:isolate}
+.scene-tint{
+  position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:var(--tint,rgba(255,255,255,0));
+  mix-blend-mode:multiply;
+  transition:background 1.4s ease;
+}
+.app[data-sky="dawn"]{
+  --sky-top:#C9DFF0; --sky-mid:#F2DCD2; --sky-low:#FBE6C4; --sky-haze:#FFF1D6;
+  --sky-ink:#4A4034; --tint:rgba(255,205,180,.24);
+}
+.app[data-sky="day"]{
+  --sky-top:#8CC6E9; --sky-mid:#C0E2F4; --sky-low:#E5F3E1; --sky-haze:#F7FCEC;
+  --sky-ink:#33402E; --tint:rgba(205,232,248,.12);
+}
+.app[data-sky="dusk"]{
+  --sky-top:#6F6894; --sky-mid:#E0966A; --sky-low:#F7BC70; --sky-haze:#FFD79A;
+  --sky-ink:#4A2E22; --tint:rgba(255,158,92,.28);
+}
+.app[data-sky="night"]{
+  --sky-top:#1C2749; --sky-mid:#33406B; --sky-low:#586489; --sky-haze:#7A85A6;
+  --sky-ink:#F3EFE2; --tint:rgba(66,86,146,.30);
+}
+.sky-head{
+  position:relative;overflow:hidden;flex:0 0 auto;
+  height:clamp(130px,20vh,196px);
+  margin:-16px -18px 14px;border-radius:0 0 26px 26px;
+  background:linear-gradient(180deg,var(--sky-top,#8CC6E9) 0%,var(--sky-mid,#C0E2F4) 46%,
+             var(--sky-low,#E5F3E1) 74%,var(--sky-haze,#F7FCEC) 100%);
+  transition:background 1.4s ease;
+  box-shadow:0 6px 14px rgba(90,70,40,.14);
+}
+.sky-head::before{
+  content:"";position:absolute;left:0;right:0;bottom:10%;height:26%;pointer-events:none;
+  background:linear-gradient(rgba(255,255,255,0),rgba(255,255,255,.42));
+}
+.sh-stars{
+  position:absolute;inset:0;z-index:1;opacity:0;pointer-events:none;
+  transition:opacity 1.4s ease;
+  background-image:
+    radial-gradient(2px 2px at 12% 26%,#fff,transparent 62%),
+    radial-gradient(2px 2px at 26% 13%,#fff,transparent 62%),
+    radial-gradient(1.5px 1.5px at 37% 31%,#fff,transparent 62%),
+    radial-gradient(2px 2px at 51% 11%,#fff,transparent 62%),
+    radial-gradient(1.5px 1.5px at 63% 27%,#fff,transparent 62%),
+    radial-gradient(2px 2px at 77% 17%,#fff,transparent 62%),
+    radial-gradient(1.5px 1.5px at 88% 33%,#fff,transparent 62%),
+    radial-gradient(2px 2px at 44% 20%,#fff,transparent 62%);
+}
+.app[data-sky="night"] .sh-stars{opacity:.9;animation:twinkle 5s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.9}50%{opacity:.5}}
+.sh-sun,.sh-moon{
+  position:absolute;left:50%;bottom:14%;z-index:2;
+  transform:translate(-50%,50%);pointer-events:none;
+  transition:left 1.6s ease,bottom 1.6s ease,opacity 1.2s ease,width .5s ease,height .5s ease;
+}
+.sh-sun{
+  width:44px;height:44px;border-radius:50%;
+  background:radial-gradient(circle at 38% 32%,#FFFCEA,#FFD37A 58%,#F5A94B);
+  box-shadow:0 0 30px rgba(255,196,110,.85);
+}
+.sh-moon{
+  width:34px;height:34px;border-radius:50%;opacity:0;
+  background:radial-gradient(circle at 36% 30%,#FFFDF2,#EDE8D4 62%,#D3CEB8);
+  box-shadow:0 0 22px rgba(245,245,225,.75),0 0 0 5px rgba(255,255,255,.14);
+}
+.app[data-sky="dawn"] .sh-sun{
+  width:40px;height:40px;
+  background:radial-gradient(circle at 38% 32%,#FFF7E2,#FFD2A2 58%,#F5B279);
+  box-shadow:0 0 34px rgba(255,200,150,.85);
+}
+.app[data-sky="dusk"] .sh-sun{
+  width:52px;height:52px;
+  background:radial-gradient(circle at 38% 32%,#FFF3CE,#FFB55E 52%,#EC7A38);
+  box-shadow:0 0 46px rgba(255,150,70,.9);
+}
+.app[data-sky="night"] .sh-sun{opacity:0}
+.app[data-sky="night"] .sh-moon{opacity:1}
+.sh-hill{
+  position:absolute;bottom:8%;z-index:3;height:18%;pointer-events:none;
+  background:linear-gradient(180deg,rgba(158,180,138,.9),rgba(122,150,105,.96));
+  border-radius:50% 62% 0 0/88% 100% 0 0;opacity:.75;
+  transition:filter 1.4s ease;
+}
+.sh-hill.h1{left:-14%;width:78%}
+.sh-hill.h2{right:-12%;width:66%;height:15%;opacity:.62}
+.sh-ground{
+  position:absolute;left:0;right:0;bottom:0;z-index:3;height:10%;pointer-events:none;
+  background:repeating-linear-gradient(90deg,rgba(206,219,146,.96) 0 10px,rgba(186,201,122,.96) 10px 14px);
+  border-top:2px solid rgba(143,167,104,.9);
+}
+.app[data-sky="night"] .sh-hill{filter:brightness(.55) saturate(.8)}
+.app[data-sky="night"] .sh-ground{filter:brightness(.6) saturate(.7)}
+.app[data-sky="dusk"] .sh-hill{filter:brightness(.85) sepia(.25)}
+.app[data-sky="dusk"] .sh-ground{filter:brightness(.9) sepia(.2)}
+.sh-bar{
+  position:absolute;left:12px;right:12px;bottom:10px;z-index:4;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.back--sky{
+  margin:0;min-height:46px;padding:0 14px;font-size:18px;border-radius:14px;
+  background:rgba(255,253,247,.9);border:1px solid rgba(255,255,255,.7);
+  color:#5A4A32;box-shadow:0 2px 8px rgba(60,40,20,.2);
+}
+.back--sky:active{transform:translateY(2px);box-shadow:none}
+.sh-info{
+  font-size:16px;font-weight:800;letter-spacing:.01em;color:var(--sky-ink,#33402E);
+  background:rgba(255,253,247,.88);border-radius:999px;padding:6px 12px;
+  box-shadow:0 2px 8px rgba(60,40,20,.16);white-space:nowrap;
+}
+.app[data-sky="night"] .sh-info{background:rgba(24,32,58,.74);color:#F3EFE2}
+.app[data-sky="night"] .back--sky{background:rgba(34,44,74,.8);color:#F3EFE2;border-color:rgba(255,255,255,.28)}
+
+/* ───────── 해 질 녘 귀가 안내 ───────── */
+.dusk-card{text-align:center}
+.dusk-sky{
+  position:relative;height:118px;border-radius:22px;overflow:hidden;margin:0 0 12px;
+  background:linear-gradient(180deg,#5E5F8C 0%,#C98A63 38%,#F2B26B 68%,#FFD79A 100%);
+  isolation:isolate;
+}
+.dusk-sun{
+  position:absolute;right:16%;bottom:20%;width:44px;height:44px;border-radius:50%;
+  background:radial-gradient(circle at 38% 32%,#FFF3CE,#FFAE55 52%,#E8702F);
+  box-shadow:0 0 38px rgba(255,140,60,.85);
+}
+.dusk-hill{
+  position:absolute;left:-10%;right:-10%;bottom:0;z-index:2;height:34%;
+  background:linear-gradient(180deg,rgba(120,112,112,.35),rgba(88,82,78,.8));
+  border-radius:50% 60% 0 0/90% 100% 0 0;
+}
+.dusk-big{font-size:40px;line-height:1.1}
+.dusk-title{margin:2px 0 6px;font-size:24px;font-weight:800;letter-spacing:-.02em;line-height:1.35;color:#4A2E22}
+.dusk-line{margin:0 0 16px;font-size:20px;line-height:1.5;color:var(--ink-soft)}
+
+/* ───────── 기록 시트 · 시간대 테스트 ───────── */
+.sky-test{
+  margin:16px 0 6px;padding:12px 12px 10px;border-radius:18px;
+  background:#FFFDF7;border:1px dashed rgba(139,106,67,.45);
+}
+.sky-test-k{margin:0 0 8px;font-size:16px;font-weight:800;color:var(--soil);letter-spacing:.02em}
+.sky-test-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-bottom:8px}
+.sky-test-row.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.sky-test-btn{
+  min-height:44px;padding:0 4px;border-radius:12px;font-family:inherit;
+  border:1px solid rgba(139,106,67,.3);background:#FFFBF0;
+  font-size:15px;font-weight:700;color:#5A4A32;cursor:pointer;
+}
+.sky-test-btn:active{transform:translateY(1px)}
+.sky-test-btn.is-on{background:var(--leaf);border-color:var(--leaf);color:#fff}
+.sky-test-info{margin:2px 0 0;font-size:14px;line-height:1.45;color:#8A7F68}
+
 @media (max-width:360px){
   .q{font-size:26px}
   .greet{font-size:25px}
@@ -731,7 +866,8 @@ button{font-family:inherit;color:inherit}
   <div id="screens">
     <!-- 1. 온보딩 ① -->
     <section class="screen" data-screen="hello">
-      <div class="village village--dusk" aria-hidden="true">
+      <div class="village" aria-hidden="true">
+        <span class="scene-tint"></span>
         <div class="v-mtn"></div>
         <div class="v-mtn b"></div>
         <div class="v-sun"></div>
@@ -744,9 +880,7 @@ button{font-family:inherit;color:inherit}
         <div class="v-yard">🏺🏺🏺</div>
         <div class="v-tree">🌳</div>
         <div class="v-creek"></div>
-        <div class="v-chip">강화도 · 1940년대</div>
       </div>
-      <p class="hello-lead">여기는 논과 냇가가 있는 우리 집이란다.</p>
       <p class="call-line">아이고, 우리 강아지 왔구나!</p>
       <h1 class="q">어릴 적 어머님·아버님이<br>뭐라고 부르셨니?</h1>
       <label class="field-label" for="nameInput">여기에 이름을 적어 주세요</label>
@@ -769,7 +903,7 @@ button{font-family:inherit;color:inherit}
       <p class="sub">한 곳만 골라 주세요. 풍경이 그쪽으로 바뀐단다.</p>
       <div class="town-grid" id="townGrid">
         <button class="town-card" data-act="town-pick" data-town="paddy">
-          <span class="tw-emoji">🌾</span><span class="tw-name">논두렁</span><span class="tw-sub">너른 강화 논</span>
+          <span class="tw-emoji">🌾</span><span class="tw-name">논두렁</span><span class="tw-sub">너른 논</span>
         </button>
         <button class="town-card" data-act="town-pick" data-town="creek">
           <span class="tw-emoji">🏞️</span><span class="tw-name">집 앞 냇가</span><span class="tw-sub">징검다리, 다슬기</span>
@@ -818,6 +952,10 @@ button{font-family:inherit;color:inherit}
   <div class="sheet" id="seasonSheet" role="dialog" aria-modal="true" aria-label="계절이 바뀌었어요">
     <div class="sheet-card season-card" id="seasonBody"></div>
   </div>
+
+  <div class="sheet" id="duskSheet" role="dialog" aria-modal="true" aria-label="집으로 들어갈 시간">
+    <div class="sheet-card dusk-card" id="duskBody"></div>
+  </div>
 </div>
 
 <script>
@@ -825,7 +963,7 @@ button{font-family:inherit;color:inherit}
 'use strict';
 
 /* ═════════════════════════════════════════
-   0. 상수 · 데이터 (1940년대 강화도)
+   0. 상수 · 데이터 (옛 고향 마을)
    ═════════════════════════════════════════ */
 var SAVE_KEY = 'memory-garden-proto-v3';
 var WD = ['일','월','화','수','목','금','토'];
@@ -838,7 +976,7 @@ var SEASONS = [
 ];
 
 var PLACES = {
-  paddy:   { name:'논두렁', emoji:'🌾', sub:'너른 강화 논', line:'논두렁에 앉아 개구리를 잡던 곳' },
+  paddy:   { name:'논두렁', emoji:'🌾', sub:'너른 논', line:'논두렁에 앉아 개구리를 잡던 곳' },
   creek:   { name:'집 앞 냇가', emoji:'🏞️', sub:'징검다리, 다슬기', line:'징검다리 밑에서 다슬기 잡던 곳' },
   field:   { name:'산자락 밭', emoji:'🥔', sub:'감자·고구마 밭', line:'감자 캐고 고구마 심던 산자락 밭' },
   village: { name:'동네 길', emoji:'🏘️', sub:'구멍가게, 마당', line:'구멍가게 앞에서 딱지 치던 동네 길' }
@@ -1029,6 +1167,10 @@ function freshState(){
             storePick:0, radio:0, dayEnd:0, taps:0, snail:0 },
     cookedNames:[],
     radioLine:0,
+    skyOverride:'',
+    playStartMs:0,
+    playStartDay:'',
+    duskNotedMs:0,
     startedAt:t,
     lastAt:t
   };
@@ -1095,6 +1237,10 @@ function calledName(){
 function seasonIndexOf(day){ return Math.floor(((((day - 1) % 12) + 12) % 12) / 3); }
 function seasonNow(){ return SEASONS[seasonIndexOf(state.day)]; }
 
+var SKY_NAME = { dawn:'새벽', day:'낮', dusk:'저녁', night:'밤' };
+var PLAY_LIMIT_MS = 60 * 60 * 1000;    /* 1시간 놀이하면 해가 진다 */
+var DUSK_SNOOZE_MS = 10 * 60 * 1000;   /* '조금만 더' 10분 뒤 다시 알림 */
+
 function dayLine(){
   var h = new Date().getHours();
   if (h < 6) return '이 밤에 나를 찾아와 주니 고맙구나.';
@@ -1102,6 +1248,173 @@ function dayLine(){
   if (h < 15) return '해가 따뜻하구나. 마루에 앉아 있을 만하지.';
   if (h < 19) return '해가 지고 있구나. 저녁은 먹었니?';
   return '하루 잘 마무리하고 있니?';
+}
+
+
+/* ═════════════════════════════════════════
+   3-b. 시간대별 하늘 · 해와 달 · 놀이 시간
+   ═════════════════════════════════════════ */
+function clockHours(){
+  var d = new Date();
+  return d.getHours() + d.getMinutes() / 60;
+}
+function playMinutes(){
+  if (!state.playStartMs) return 0;
+  if (state.playStartDay && state.playStartDay !== todayLabel()) return 0;
+  return Math.max(0, Math.floor((Date.now() - state.playStartMs) / 60000));
+}
+function startPlayClock(){
+  state.playStartMs = Date.now();
+  state.playStartDay = todayLabel();
+}
+function overHour(){ return playMinutes() >= 60; }
+function sunArcT(h){
+  var t = (h - 6) / 13;                    /* 6시 지평선 → 19시 지평선 */
+  return Math.max(0, Math.min(1, t));
+}
+function moonArcT(h){
+  var hh = (h < 6) ? h + 24 : h;           /* 19:30 ~ 다음날 05:00 */
+  var t = (hh - 19.5) / 9.5;
+  return Math.max(0, Math.min(1, t));
+}
+function skyInfo(){
+  var h = clockHours();
+  var over = overHour();
+  var key = '', sunT = sunArcT(h), moonT = moonArcT(h);
+  if (state.skyOverride){
+    key = state.skyOverride;
+    if (key === 'dawn') sunT = 0.10;
+    else if (key === 'day') sunT = 0.52;
+    else if (key === 'dusk') sunT = 0.94;
+    else if (key === 'night') moonT = 0.45;
+  } else if (over){
+    key = 'dusk'; sunT = 0.97;             /* 한 시간이 넘으면 해가 오른쪽으로 저문다 */
+  } else if (h >= 5 && h < 7.5){
+    key = 'dawn';
+  } else if (h >= 7.5 && h < 16.5){
+    key = 'day';
+  } else if (h >= 16.5 && h < 19.5){
+    key = 'dusk';
+  } else {
+    key = 'night';
+  }
+  return { key:key, name:SKY_NAME[key], sunT:sunT, moonT:moonT, over:over };
+}
+/* 하늘 안 반원(아치) 궤적: 왼쪽 지평선 → 정점 → 오른쪽 지평선 */
+function skyOrbStyle(t){
+  t = Math.max(0, Math.min(1, t));
+  var x = 6 + 88 * t;
+  var y = 14 + Math.sin(Math.PI * t) * 66;
+  return 'left:' + x.toFixed(2) + '%;bottom:' + y.toFixed(2) + '%';
+}
+function skyPaintOrbs(s){
+  s = s || skyInfo();
+  var suns = document.querySelectorAll('.sh-sun');
+  var i;
+  for (i = 0; i < suns.length; i++){ if (suns[i].setAttribute) suns[i].setAttribute('style', skyOrbStyle(s.sunT)); }
+  var moons = document.querySelectorAll('.sh-moon');
+  for (i = 0; i < moons.length; i++){ if (moons[i].setAttribute) moons[i].setAttribute('style', skyOrbStyle(s.moonT)); }
+}
+function skyApply(){
+  var s = skyInfo();
+  var app = el('app');
+  if (app && app.setAttribute) app.setAttribute('data-sky', s.key);
+  skyPaintOrbs(s);
+  return s;
+}
+/* 게임 화면 상단 1/5 하늘 헤더 (해·달·별 + 뒤로가기 + 날짜/상태) */
+function skyHeadHTML(backAct, backLabel){
+  var s = skyInfo();
+  var se = seasonNow();
+  var info = s.name + ' · ' + se.emoji + ' ' + se.name + ' · ' + state.day + '일째';
+  return '<div class="sky-head" id="skyHead">' +
+    '<span class="sh-stars"></span>' +
+    '<span class="sh-hill h2"></span><span class="sh-hill h1"></span>' +
+    '<span class="sh-ground"></span>' +
+    '<span class="sh-sun" style="' + skyOrbStyle(s.sunT) + '"></span>' +
+    '<span class="sh-moon" style="' + skyOrbStyle(s.moonT) + '"></span>' +
+    '<div class="sh-bar">' +
+      '<button class="back back--sky" data-act="' + backAct + '">← ' + esc(backLabel) + '</button>' +
+      '<span class="sh-info">' + esc(info) + '</span>' +
+    '</div>' +
+  '</div>';
+}
+function tickSky(){
+  var s = skyApply();
+  duskCheck(s);
+}
+function duskCheck(s){
+  s = s || skyInfo();
+  if (!s.over) return;
+  var sheet = el('duskSheet');
+  if (sheet && sheet.classList && sheet.classList.contains('is-open')) return;
+  var now = Date.now();
+  if (state.duskNotedMs && now - state.duskNotedMs < DUSK_SNOOZE_MS) return;
+  state.duskNotedMs = now;
+  saveState();
+  openDusk();
+}
+function duskHTML(){
+  return '<div class="dusk-sky"><span class="dusk-hill"></span><span class="dusk-sun"></span></div>' +
+    '<div class="dusk-big">🌇</div>' +
+    '<div class="dusk-title">해가 뉘엿뉘엿 저물고 있어요</div>' +
+    '<p class="dusk-line">하늘이 붉게 물들었어요.<br>이제 그만 집으로 들어가서 쉬셔야 해요!</p>' +
+    '<button class="btn btn--night" style="margin-top:2px" data-act="dusk-home">집으로 들어가기 (마무리)</button>' +
+    '<button class="btn btn--ghost" style="margin-top:10px" data-act="dusk-stay">조금만 더 할게요</button>';
+}
+function openDusk(){
+  var b = el('duskBody');
+  if (b) b.innerHTML = duskHTML();
+  openSheet('duskSheet');
+  Sound.soft();
+}
+function duskHome(){
+  closeSheet('duskSheet');
+  startPlayClock();
+  state.duskNotedMs = 0;
+  saveState();
+  go('hub');
+  defer(function(){ endDay(); }, 260);
+}
+function duskStay(){
+  closeSheet('duskSheet');
+  state.duskNotedMs = Date.now();
+  saveState();
+  toast('조금만 더 놀아도 좋아요. 해가 지면 다시 알려 드릴게요.');
+  Sound.soft();
+}
+function skyPreview(mode){
+  state.skyOverride = (mode === 'auto') ? '' : mode;
+  saveState();
+  skyApply();
+  paint();
+  Sound.click();
+  toast('하늘 미리보기 · ' + (mode === 'auto' ? '자동' : SKY_NAME[mode]));
+}
+function skyHourTest(){
+  state.skyOverride = '';
+  startPlayClock();
+  state.playStartMs = Date.now() - (PLAY_LIMIT_MS + 60000);
+  state.duskNotedMs = 0;
+  saveState();
+  closeSheet('recordSheet');
+  skyApply();
+  paint();
+  defer(function(){ openDusk(); }, 420);
+  toast('한 시간이 지난 상태로 바꿨어요');
+}
+function playReset(){
+  startPlayClock();
+  state.duskNotedMs = 0;
+  saveState();
+  skyApply();
+  paint();
+  toast('놀이 시간을 처음부터 다시 쟀어요');
+}
+function skyBtn(mode, label){
+  var on = (mode === 'auto') ? !state.skyOverride : (state.skyOverride === mode);
+  return '<button class="sky-test-btn' + (on ? ' is-on' : '') + '"' +
+    ' data-act="sky-preview" data-sky="' + mode + '">' + label + '</button>';
 }
 
 /* ═════════════════════════════════════════
@@ -1293,6 +1606,7 @@ function makerName(){
 
 function villageHTML(extraClass){
   return '<div class="village' + (extraClass ? ' ' + extraClass : '') + '">' +
+    '<span class="scene-tint"></span>' +
     '<div class="v-mtn"></div><div class="v-mtn b"></div>' +
     '<div class="v-sun"></div>' +
     '<div class="v-paddy"><span class="v-rice">🌾🌾🌾🌾🌾🌾🌾🌾🌾🌾🌾🌾🌾🌾</span></div>' +
@@ -1302,7 +1616,6 @@ function villageHTML(extraClass){
     '<div class="v-yard">🏺🏺🏺</div>' +
     '<div class="v-tree">🌳</div>' +
     '<div class="v-creek"></div>' +
-    '<div class="v-chip">강화도 · 1940년대</div>' +
   '</div>';
 }
 
@@ -1385,7 +1698,7 @@ function mapHTML(){
   var dog = walk.active ? { x: mapPos.x, y: mapPos.y } : mapDogIdle();
   return '<div class="map-wrap">' +
     '<div class="map-scene" id="mapScene" style="background-image:url(' + ART.map + ')">' +
-      '<span class="map-chip">강화도 · 1940년대</span>' +
+      '<span class="scene-tint"></span>' +
       nodes +
       '<div class="map-dots" id="mapDots"></div>' +
       '<div class="map-dog' + (walk.active ? ' is-walking' : '') + '" id="mapDog"' +
@@ -1514,12 +1827,12 @@ function hubHTML(){
     '<div class="basket-items">' + basketHTML() + '</div>' +
   '</div>' +
   mapHTML() +
-  '<p class="badge-zero">광고 0% · 결제 0원 · 점수 0 · 시간 제한 없음</p>' +
+  '<p class="badge-zero">광고 0% · 결제 0원 · 점수 0 · 내 속도대로</p>' +
   '<button class="btn btn--night" data-act="end-day">🌙 오늘 하루 마무리하고 내일로 가기</button>';
 }
 
 /* ═════════════════════════════════════════
-   7. 텃밭 (강화 논두렁 밭)
+   7. 텃밭 (논두렁 밭)
    ═════════════════════════════════════════ */
 function gardenStage(){
   var g = state.garden;
@@ -1594,14 +1907,15 @@ function gardenHTML(){
     '<span class="re-go">시작</span></button>';
 
   return '' +
-  '<button class="back" data-act="go-hub">← 마당으로</button>' +
+  skyHeadHTML('go-hub', '마당으로') +
   '<h1 class="screen-title">🌱 논두렁 텃밭 가꾸기</h1>' +
   '<p class="hint">' + esc(gardenHint(st)) + '</p>' +
   '<div class="garden-scene" id="gardenScene">' +
-    '<button class="g-paddy" data-act="open-rice" aria-label="집 앞 강화 논에서 벼 모내기 하기">' +
+    '<span class="scene-tint"></span>' +
+    '<button class="g-paddy" data-act="open-rice" aria-label="벼 모내기 하기">' +
       '<span class="g-rice">🌾🌾🌾🌾</span><span class="g-paddy-label">벼 모내기 →</span>' +
     '</button>' +
-    '<div class="g-sun-row"><span>' + esc(seasonNow().emoji + ' ' + seasonNow().name) + '</span><span>☀️</span></div>' +
+    '<div class="g-sun-row"><span>' + esc(seasonNow().emoji + ' ' + seasonNow().name) + '</span><span>' + esc(skyInfo().name) + '</span></div>' +
     '<div class="soil">' + plots + '</div>' +
     '<div class="drops"><span class="drop"></span><span class="drop"></span><span class="drop"></span>' +
     '<span class="drop"></span><span class="drop"></span><span class="drop"></span></div>' +
@@ -1648,7 +1962,6 @@ function riceSceneHTML(opts){
   body += '<div class="rice-band" id="riceBand" style="top:' + bandTop.toFixed(2) +
     '%;height:' + (RICE_BAND*100).toFixed(2) + '%"></div>';
   body += '<div class="rice-guide" style="top:' + (RICE_TARGET*100).toFixed(2) + '%"></div>';
-  body += '<div class="rice-place">🌾 집 앞 강화 논</div>';
   for (i = 0; i < riceGame.marks.length; i++) body += riceSlotHTML(i, riceGame.marks[i]);
   if (opts.ghost){
     for (i = riceGame.marks.length; i < RICE_ROWS; i++){
@@ -1664,11 +1977,11 @@ function riceSceneHTML(opts){
   return '<div class="rice-scene' + (opts.tap ? ' is-tappable' : '') + '" id="riceScene"' +
     ' style="background-image:url(' + ART.paddy + ')"' +
     (opts.tap ? ' data-act="rice-plant" role="button" aria-label="여기에 심기"' : '') + '>' +
-    body + '</div>';
+    '<span class="scene-tint"></span>' + body + '</div>';
 }
 function riceHTML(){
   var g = riceGame;
-  var head = '<button class="back" data-act="go-garden">← 텃밭으로</button>' +
+  var head = skyHeadHTML('go-garden', '텃밭으로') +
     '<h1 class="screen-title">🌾 벼 모내기 · 논줄 맞추기</h1>';
   var hud = '', body = '', below = '';
 
@@ -1771,6 +2084,7 @@ function riceLand(auto, p){
     Sound.plant(); Sound.plop(); buzz();
     riceGame.marks[riceGame.idx] = 'straight';
     riceGame.idx++;
+    state.rice.plots++; state.rice.straight++; state.today.rice++;
     riceGame.showY = null;
     paint();
     toast('줄에 딱 맞게 심었어요!');
@@ -1810,6 +2124,7 @@ function riceKeep(){
   state.rice.keep++;
   riceGame.marks[riceGame.idx] = 'crooked';
   riceGame.idx++;
+  state.rice.plots++; state.rice.crooked++; state.today.rice++;
   riceGame.phase = 'aim';
   riceGame.showY = null;
   bump(); saveState();
@@ -1824,12 +2139,8 @@ function riceHarvest(){
   var cr = riceCount('crooked');
   var y = riceYield();
   addItem('rice', y);
-  state.rice.straight += st;
-  state.rice.crooked += cr;
-  state.rice.plots += (st + cr);
   state.rice.harvest += y;
   state.rice.lastYield = y;
-  state.today.rice += (st + cr);
   state.stats.harvest += y;
   riceGame.phase = 'done';
   riceGame.yield = y;
@@ -1877,10 +2188,11 @@ function streamHTML(){
   if (allCaught()) hint = '오늘은 다 잡았어요. 또 잡고 싶으면 아래를 눌러요.';
 
   return '' +
-  '<button class="back" data-act="go-hub">← 마당으로</button>' +
+  skyHeadHTML('go-hub', '마당으로') +
   '<h1 class="screen-title">🏞️ 집 앞 냇가 놀러가기</h1>' +
   '<p class="hint">' + esc(hint) + '</p>' +
   '<div class="stream-scene" id="streamScene">' +
+    '<span class="scene-tint"></span>' +
     '<div class="stone-row">🪨 🪨 🪨</div>' + items +
   '</div>' +
   '<div class="stream-foot">' +
@@ -1904,9 +2216,9 @@ function kitchenHTML(){
   }).join('');
 
   return '' +
-  '<button class="back" data-act="go-hub">← 마당으로</button>' +
+  skyHeadHTML('go-hub', '마당으로') +
   '<h1 class="screen-title">🍲 부뚜막 부엌</h1>' +
-  '<div class="kitchen-scene"><div class="hearth">' +
+  '<div class="kitchen-scene"><span class="scene-tint"></span><div class="hearth">' +
     '<span class="kitchen-note">아궁이 · 가마솥</span>' +
     '<div class="steam"><i></i><i></i><i></i></div>' +
     '<div class="cauldron"></div>' +
@@ -1929,10 +2241,10 @@ function storeHTML(){
   }).join('');
 
   return '' +
-  '<button class="back" data-act="go-hub">← 마당으로</button>' +
+  skyHeadHTML('go-hub', '마당으로') +
   '<h1 class="screen-title">🏪 마을 구멍가게</h1>' +
   '<p class="hint">유리병을 톡 눌러 보세요. 아저씨가 하나씩 꺼내 준단다.</p>' +
-  '<div class="store-scene">' +
+  '<div class="store-scene"><span class="scene-tint"></span>' +
     '<div class="store-sign">구멍가게</div>' +
     '<div class="jar-row">' + jars + '</div>' +
   '</div>' +
@@ -1952,6 +2264,7 @@ function riceAccuracy(){
 }
 function recordHTML(){
   var se = seasonNow();
+  var sky = skyInfo();
   var place = PLACES[state.place];
   var rows = [
     ['부르는 이름', calledName()],
@@ -1971,13 +2284,28 @@ function recordHTML(){
       (state.cookedNames.length ? ' (' + state.cookedNames.slice(0,3).join(', ') + ')' : '')],
     ['구멍가게', '고른 군것질 ' + state.stats.storePick + '개'],
     ['라디오', state.stats.radio + '번 들었어요'],
+    ['지금 하늘', sky.name + (state.skyOverride ? ' (미리보기)' : (sky.over ? ' · 한 시간 넘음' : ''))],
+    ['놀이한 시간', playMinutes() + '분' + (sky.over ? ' · 집에 들어갈 시간' : '')],
     ['처음 시작', state.startedAt],
     ['마지막 터치', state.lastAt],
     ['총 터치', state.stats.taps + '번']
   ];
+  var panel = '<div class="sky-test">' +
+    '<p class="sky-test-k">🕗 시간대 미리보기 · 해와 달의 하루</p>' +
+    '<div class="sky-test-row">' +
+      skyBtn('auto', '자동') + skyBtn('dawn', '새벽') + skyBtn('day', '낮') +
+      skyBtn('dusk', '저녁') + skyBtn('night', '밤') +
+    '</div>' +
+    '<div class="sky-test-row two">' +
+      '<button class="sky-test-btn" data-act="sky-hour-test">⏱ 1시간 경과 테스트</button>' +
+      '<button class="sky-test-btn" data-act="sky-play-reset">놀이 시간 초기화</button>' +
+    '</div>' +
+    '<p class="sky-test-info">지금 하늘 ' + sky.name + ' · 놀이한 시간 ' + playMinutes() + '분' +
+      (sky.over ? ' · 해가 저물고 있어요' : '') + '</p>' +
+  '</div>';
   return rows.map(function(r){
     return '<div class="rec-row"><span class="rec-k">' + esc(r[0]) + '</span><span class="rec-v">' + esc(r[1]) + '</span></div>';
-  }).join('');
+  }).join('') + panel;
 }
 
 function currentDish(){
@@ -2068,6 +2396,7 @@ function paint(){
   }
   var rbtn = el('resetBtn');
   if (rbtn){ rbtn.textContent = resetArmed ? '정말 지울까요? 한 번 더 눌러 주세요' : '처음부터 다시 테스트하기'; }
+  skyApply();
 }
 
 function renderHello(){
@@ -2466,6 +2795,11 @@ function handle(act, node){
     case 'records-close': recordsClose(); break;
     case 'records-reset': recordsReset(); break;
     case 'sound-toggle': toggleSound(); break;
+    case 'sky-preview': skyPreview(node.getAttribute('data-sky')); break;
+    case 'sky-hour-test': skyHourTest(); break;
+    case 'sky-play-reset': playReset(); break;
+    case 'dusk-home': duskHome(); break;
+    case 'dusk-stay': duskStay(); break;
     default: break;
   }
 }
@@ -2484,6 +2818,11 @@ function init(){
   if (!app) return;
   app.addEventListener('click', onClick);
   Sound.setOn(state.sound !== false);
+  var stale = !state.playStartMs || state.playStartDay !== todayLabel() ||
+              (Date.now() - state.playStartMs > 6 * 60 * 60 * 1000);
+  if (stale){ startPlayClock(); saveState(); }
+  skyApply();
+  if (typeof setInterval === 'function') setInterval(tickSky, 20000);
   if (state.place){
     streamObjects = null;
     go('hub');
@@ -2521,6 +2860,11 @@ try{
       riceRetry: riceRetry, riceKeep: riceKeep, riceHarvest: riceHarvest,
       riceYield: riceYield, riceAccuracy: riceAccuracy, openRice: openRice, riceFallStart: riceFallStart,
       setRiceY: function(y){ riceGame.y = y; },
+      /* 시간대별 하늘 · 해와 달 */
+      skyInfo: skyInfo, skyApply: skyApply, skyHeadHTML: skyHeadHTML, skyOrbStyle: skyOrbStyle,
+      overHour: overHour, playMinutes: playMinutes, clockHours: clockHours,
+      skyPreview: skyPreview, skyHourTest: skyHourTest, playReset: playReset,
+      openDusk: openDusk, duskStay: duskStay, duskHome: duskHome,
       nowMs: nowMs
     };
   }
