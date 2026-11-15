@@ -897,17 +897,24 @@ button{font-family:inherit;color:inherit}
 }
 .sea-boat .b-hull{
   position:relative;display:block;width:100%;height:46px;
-  background:linear-gradient(#C39A6A,#8B6A43);border-radius:10px 10px 70px 70px/10px 10px 46px 46px;
+  background:
+    repeating-linear-gradient(90deg, rgba(110,82,51,.22) 0 2px, rgba(255,255,255,0) 2px 24px),
+    linear-gradient(#C39A6A,#8B6A43);
+  border-radius:10px 10px 70px 70px/10px 10px 46px 46px;
   border-bottom:5px solid #6E5233;box-shadow:0 6px 12px rgba(20,60,80,.35);
 }
+.sea-boat .b-hull::before{
+  content:"";position:absolute;left:-3px;right:-3px;top:-5px;height:11px;border-radius:7px;
+  background:linear-gradient(#D8B384,#AA8055);border-bottom:2px solid rgba(110,82,51,.35);
+}
 .sea-boat .b-hull::after{
-  content:"";position:absolute;left:12%;right:12%;top:8px;height:5px;border-radius:4px;background:rgba(255,255,255,.35);
+  content:"";position:absolute;left:12%;right:12%;top:14px;height:4px;border-radius:4px;background:rgba(255,255,255,.22);
 }
 .sea-boat .b-oar{
   position:absolute;left:-18px;bottom:28px;width:56px;height:8px;border-radius:6px;background:#A9805A;
   transform:rotate(22deg);transform-origin:right center;
 }
-.sea-boat .b-kid{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);height:64px;display:block}
+.sea-boat .b-kid{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);height:64px;display:block}
 .sea-boat .b-kid .kid-img{height:100%;width:auto}
 .sea-target{
   position:absolute;z-index:4;width:92px;height:92px;margin:-46px 0 0 -46px;
@@ -2881,7 +2888,7 @@ function neighborHTML(){
       '<p class="ns-line">수고했어요. 이제 마당이 반짝반짝하구나.</p>' +
       (g.got ? '<div class="reward"><div class="r-big">' + ITEM_BASE[g.got].emoji + ' ' +
         esc(itemName(g.got)) + ' 하나를 받았어요</div>' +
-        '<div class="r-sub">' + esc(nb.who) + '가 웃으면서 바구니에 담아 주셨어요.</div></div>' : '') +
+        '<div class="r-sub">' + esc(nb.who) + sI(nb.who) + ' 웃으면서 바구니에 담아 주셨어요.</div></div>' : '') +
       '</div>';
     below = '<button class="btn btn--primary btn--xl" data-act="nb-back">고맙습니다</button>' +
       '<button class="btn btn--ghost" style="margin-top:10px" data-act="go-hub">마당으로 돌아가기</button>';
