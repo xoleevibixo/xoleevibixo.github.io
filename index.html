@@ -783,18 +783,18 @@ button{font-family:inherit;color:inherit}
 .app[data-sky="dusk"] .sh-hill{filter:brightness(.85) sepia(.25)}
 .app[data-sky="dusk"] .sh-ground{filter:brightness(.9) sepia(.2)}
 .sh-bar{
-  position:absolute;left:12px;right:12px;bottom:10px;z-index:4;
-  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  position:absolute;left:10px;right:10px;top:8px;z-index:4;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:8px;
 }
 .back--sky{
-  margin:0;min-height:46px;padding:0 14px;font-size:18px;border-radius:14px;
+  margin:0;min-height:42px;padding:0 13px;font-size:17px;border-radius:13px;
   background:rgba(255,253,247,.9);border:1px solid rgba(255,255,255,.7);
   color:#5A4A32;box-shadow:0 2px 8px rgba(60,40,20,.2);
 }
 .back--sky:active{transform:translateY(2px);box-shadow:none}
 .sh-info{
-  font-size:16px;font-weight:800;letter-spacing:.01em;color:var(--sky-ink,#33402E);
-  background:rgba(255,253,247,.88);border-radius:999px;padding:6px 12px;
+  font-size:15px;font-weight:800;letter-spacing:.01em;color:var(--sky-ink,#33402E);
+  background:rgba(255,253,247,.88);border-radius:999px;padding:5px 11px;
   box-shadow:0 2px 8px rgba(60,40,20,.16);white-space:nowrap;
 }
 .app[data-sky="night"] .sh-info{background:rgba(24,32,58,.74);color:#F3EFE2}
@@ -1285,10 +1285,10 @@ function skyInfo(){
     key = state.skyOverride;
     if (key === 'dawn') sunT = 0.10;
     else if (key === 'day') sunT = 0.52;
-    else if (key === 'dusk') sunT = 0.94;
+    else if (key === 'dusk') sunT = 0.90;
     else if (key === 'night') moonT = 0.45;
   } else if (over){
-    key = 'dusk'; sunT = 0.97;             /* 한 시간이 넘으면 해가 오른쪽으로 저문다 */
+    key = 'dusk'; sunT = 0.93;             /* 한 시간이 넘으면 해가 오른쪽으로 저문다 */
   } else if (h >= 5 && h < 7.5){
     key = 'dawn';
   } else if (h >= 7.5 && h < 16.5){
