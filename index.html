@@ -1451,6 +1451,10 @@ function cancelRaf(h){
 /* ═════════════════════════════════════════
    2. 상태
    ═════════════════════════════════════════ */
+function freshToday(){
+  return { garden:0, stream:0, kitchen:0, store:0, caught:0, harvest:0, cooked:0, radio:0, rice:0,
+           sea:0, steal:0, sold:0, bought:0 };
+}
 function freshState(){
   var t = fmtNow();
   return {
@@ -1469,8 +1473,7 @@ function freshState(){
     sea:{ runs:0, caught:0, lastRun:0 },
     steal:{ tries:0, got:0, caught:0, asked:0, penalty:0, last:'', kind:'', seenA:0, seenB:0 },
     market:{ sold:0, bought:0 },
-    today:{ garden:0, stream:0, kitchen:0, store:0, caught:0, harvest:0, cooked:0, radio:0, rice:0,
-            sea:0, steal:0, sold:0, bought:0 },
+    today:freshToday(),
     stats:{ garden:0, stream:0, kitchen:0, store:0, water:0, harvest:0, caught:0, cooked:0,
             storePick:0, radio:0, dayEnd:0, taps:0, snail:0,
             seaRun:0, seaCaught:0, stealTry:0, stealGot:0, stealCaught:0, asked:0,
@@ -3468,7 +3471,7 @@ function dayNext(){
   var before = seasonIndexOf(state.day);
   state.day++;
   var after = seasonIndexOf(state.day);
-  state.today = { garden:0, stream:0, kitchen:0, store:0, caught:0, harvest:0, cooked:0, radio:0, rice:0 };
+  state.today = freshToday();
   state.stats.dayEnd++;
   bump(); saveState();
   closeSheet('daySheet');
