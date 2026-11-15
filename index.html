@@ -259,7 +259,7 @@ button{font-family:inherit;color:inherit}
 /* ───────── 마을 지도(허브) ───────── */
 .map-wrap{margin:0 0 12px}
 .map-scene{
-  position:relative;height:352px;border-radius:26px;overflow:hidden;
+  position:relative;height:392px;border-radius:26px;overflow:hidden;
   border:1px solid rgba(139,106,67,.25);
   background:linear-gradient(#E9F4FA 0%,#E7F1DA 40%,#DDEBC6 70%,#CFE0AE 100%);
   background-size:cover;background-position:center;
@@ -840,7 +840,7 @@ button{font-family:inherit;color:inherit}
 
 /* ═════════ 바다 · 포구 (배 타고 나가기) ═════════ */
 .map-sea{
-  position:absolute;right:-8%;top:34%;width:36%;height:30%;z-index:2;pointer-events:none;
+  position:absolute;right:-8%;top:38%;width:36%;height:28%;z-index:2;pointer-events:none;
   border-radius:52% 0 0 52%/50% 0 0 50%;
   background:linear-gradient(160deg,#C6E7F0,#7FC3D6 58%,#55A0B8);
   box-shadow:inset 0 0 20px rgba(255,255,255,.55);
@@ -1256,7 +1256,7 @@ var MAP_SPOTS = {
   store:   { x:79, y:79, name:'구멍가게',   emoji:'🍬' },
   neighborA:{ x:49, y:15, name:'순자네 밭', emoji:'🍉' },
   neighborB:{ x:13, y:50, name:'철수네 밭', emoji:'🍠' },
-  sea:     { x:88, y:47, name:'바다',      emoji:'🛶' }
+  sea:     { x:89, y:50, name:'바다',      emoji:'🛶' }
 };
 /* 오솔길: 마당(큰 나무 밑)에서 각 장소로 이어지는 흙길 (지도 안 비율 %) */
 var MAP_ROADS = {
@@ -1266,7 +1266,7 @@ var MAP_ROADS = {
   store:   [[47,57],[55,64],[60,70],[64,77]],
   neighborA:[[47,57],[48,47],[48,34],[49,23]],
   neighborB:[[47,57],[37,55],[27,54],[17,51]],
-  sea:     [[47,57],[59,55],[71,52],[83,49]]
+  sea:     [[47,57],[59,55],[71,53],[83,51]]
 };
 var KID_STOP = 0.99;      /* 오솔길 끝에서 몇 % 지점에 서는지 */
 var DOG_GAP = 6.5;        /* 강아지가 주인공 뒤로 따라오는 거리 */
